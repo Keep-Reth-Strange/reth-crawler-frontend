@@ -3,14 +3,17 @@ import { getClients } from './services/api';
 import './App.css';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5percent from '@amcharts/amcharts5/percent';
+import Loading from './components/Loading';
 
 function App() {
   const chartRef = useRef<any>(null);
+  const [loading, setLoading] = React.useState(true);
   const [clientData, setClientData] = React.useState<{ client: string; count: number }[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await getClients();
+      setLoading(false);
       const reducedData = data.reduce((acc: Record<string, number>, data: { client_version: string }) => {
         const client = data.client_version.split('/')[0];
         acc[client] = (acc[client] || 0) + 1;
@@ -112,9 +115,8 @@ function App() {
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <div id='chartdiv' style={{ width: '100%', height: '400px' }}></div>
-      </header>
+      {loading && <Loading />}
+      <div id='chartdiv' style={{ width: '100%', height: '400px' }}></div>
     </div>
   );
 }
