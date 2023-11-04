@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import axios from "axios";
-import "./App.css";
-import * as am5 from "@amcharts/amcharts5";
-import * as am5percent from "@amcharts/amcharts5/percent";
+import React, { useEffect, useRef } from 'react';
+import { getClients } from './services/api';
+import './App.css';
+import * as am5 from '@amcharts/amcharts5';
+import * as am5percent from '@amcharts/amcharts5/percent';
 
 function App() {
   const chartRef = useRef<any>(null);
@@ -10,9 +10,9 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const clientResult = await axios.get("http://localhost:3030/clients");
-      const reducedData = clientResult.data.reduce((acc: any, data: { client_version: string }) => {
-        const client = data.client_version.split("/")[0];
+      const { data } = await getClients();
+      const reducedData = data.reduce((acc: Record<string, number>, data: { client_version: string }) => {
+        const client = data.client_version.split('/')[0];
         acc[client] = (acc[client] || 0) + 1;
         return acc;
       }, {});
@@ -33,7 +33,7 @@ function App() {
 
     let root;
     if (!chartRef.current) {
-      root = am5.Root.new("chartdiv");
+      root = am5.Root.new('chartdiv');
       chartRef.current = root;
     } else {
       root = chartRef.current;
@@ -47,10 +47,10 @@ function App() {
 
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
-        name: "Series",
-        valueField: "count",
-        categoryField: "client",
-        color: am5.color("#fff"),
+        name: 'Series',
+        valueField: 'count',
+        categoryField: 'client',
+        color: am5.color('#fff'),
       })
     );
 
@@ -58,7 +58,7 @@ function App() {
     series.labels.template.setAll({
       forceHidden: false,
       text: "{category}: {valuePercentTotal.formatNumber('#.0')}% ({value})",
-      fill: am5.color("#fff"),
+      fill: am5.color('#fff'),
       populateText: true,
       fontSize: 14,
     });
@@ -77,25 +77,27 @@ function App() {
     // Adjust the font size of legend on the left side of the chart
     legend.labels.template.setAll({
       fontSize: 16,
-      fill: am5.color("#fff"),
+      fill: am5.color('#fff'),
     });
     legend.markers.template.setAll({
       width: 10,
       height: 10,
-      fill: am5.color("#fff"),
+      fill: am5.color('#fff'),
     });
     legend.valueLabels.template.setAll({
       fontSize: 14,
       text: "{valuePercentTotal.formatNumber('#.0')}% ({value})",
-      fill: am5.color("#ccc"),
-      marginTop: "3px",
+      fill: am5.color('#ccc'),
+      marginTop: '3px',
     });
 
     // @ts-ignore-next-line
-    legend.valueLabels.template.adapters.add("text", function (text, target) {
+    legend.valueLabels.template.adapters.add('text', function (text, target) {
       if (target.dataItem) {
-        console.log(target.dataItem.get("valuePercentTotal").formatNumber("#.0") + "% (" + target.dataItem.get("value") + ")");
-        return `${target.dataItem.get("valuePercentTotal").formatNumber("#.0")}% (${target.dataItem.get("value")})`;
+        console.log(
+          target.dataItem.get('valuePercentTotal').formatNumber('#.0') + '% (' + target.dataItem.get('value') + ')'
+        );
+        return `${target.dataItem.get('valuePercentTotal').formatNumber('#.0')}% (${target.dataItem.get('value')})`;
       }
       return text;
     });
@@ -109,9 +111,9 @@ function App() {
   }, [clientData]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <div id="chartdiv" style={{ width: "100%", height: "400px" }}></div>
+    <div className='App'>
+      <header className='App-header'>
+        <div id='chartdiv' style={{ width: '100%', height: '400px' }}></div>
       </header>
     </div>
   );
