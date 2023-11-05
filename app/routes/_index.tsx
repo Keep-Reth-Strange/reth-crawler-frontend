@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import type { LoaderFunction } from "@remix-run/node";
 import { useEffect, useRef, useState } from "react";
-import PieChart from "~/components/PieChart";
+import PieChart from "../components/PieChart";
 import Filters from "../components/Filters";
 import {
   getBaseData,
@@ -11,6 +11,7 @@ import {
   getOSDistribution,
 } from "../data/clients";
 import { useLoaderData } from "@remix-run/react";
+import { Client, ClientsTable } from "~/components/ClientsTable";
 
 function ChartWrapper() {
   const chartdivRef = useRef<HTMLDivElement>(null);
@@ -43,10 +44,12 @@ function App() {
   const [secondaryFilter, setSecondaryFilter] = useState<SecondaryFilter>("clientVersion");
 
   const [chartData, setChartData] = useState<Distribution[] | null>(loaderChartData);
+  const [clientsData, setClientsData] = useState<Client[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getClientsData(baseData);
+      setClientsData(data);
       setChartData(data);
       setIsLoaded(true);
     };
@@ -103,6 +106,7 @@ function App() {
           onClick={!clientFilter ? handleClientChartClick : null}
           categoryField={!clientFilter ? "client" : secondaryFilter}
         />
+        <ClientsTable data={clientsData as Client[]} />
       </header>
     </div>
   );
