@@ -11,7 +11,8 @@ import {
   getOSDistribution,
 } from "../data/clients";
 import { useLoaderData } from "@remix-run/react";
-import { Client, ClientsTable } from "~/components/ClientsTable";
+import { ClientsTable } from "~/components/ClientsTable";
+import { Navigation } from "~/components/Navigation";
 
 function ChartWrapper() {
   const chartdivRef = useRef<HTMLDivElement>(null);
@@ -88,6 +89,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white p-4">
       <header className="container mx-auto">
+        <Navigation />
         <Filters
           clientFilter={clientFilter}
           secondaryFilter={secondaryFilter}
@@ -106,7 +108,7 @@ function App() {
           onClick={!clientFilter ? handleClientChartClick : null}
           categoryField={!clientFilter ? "client" : secondaryFilter}
         />
-        <ClientsTable data={clientsData as Client[]} />
+        <ClientsTable data={clientsData as ClientDistribution[]} />
       </header>
     </div>
   );
