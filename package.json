@@ -21,6 +21,7 @@
     "@remix-run/node": "^2.2.0",
     "@remix-run/react": "^2.2.0",
     "@remix-run/serve": "^2.2.0",
+    "@tanstack/react-table": "^8.10.7",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
@@ -43,12 +44,12 @@
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
-    "tslib": "^2.6.2",
     "@remix-run/dev": "^2.2.0",
     "@remix-run/eslint-config": "^2.2.0",
     "@types/react": "^18.2.34",
     "@types/react-dom": "^18.2.14",
     "eslint": "^8.38.0",
+    "tslib": "^2.6.2",
     "typescript": "^5.2.2"
   },
   "engines": {

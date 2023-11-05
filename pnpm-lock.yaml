@@ -14,6 +14,7 @@ specifiers:
   '@remix-run/node': ^2.2.0
   '@remix-run/react': ^2.2.0
   '@remix-run/serve': ^2.2.0
+  '@tanstack/react-table': ^8.10.7
   '@testing-library/jest-dom': ^6.1.4
   '@testing-library/react': ^14.0.0
   '@testing-library/user-event': ^14.5.1
@@ -52,6 +53,7 @@ dependencies:
   '@remix-run/node': 2.2.0_typescript@5.2.2
   '@remix-run/react': 2.2.0_vegmnuvoswdxuttpuhvewcem44
   '@remix-run/serve': 2.2.0_typescript@5.2.2
+  '@tanstack/react-table': 8.10.7_biqbaboplfbrettd7655fr4n2y
   '@testing-library/jest-dom': 6.1.4_@types+jest@29.5.7
   '@testing-library/react': 14.0.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 14.5.1
@@ -3657,6 +3659,23 @@ packages:
       loader-utils: 2.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@tanstack/react-table/8.10.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-bXhjA7xsTcsW8JPTTYlUg/FuBpn8MNjiEPhkNhIGCUR6iRQM2+WEco4OBpvDeVcR9SE+bmWLzdfiY7bCbCSVuA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/table-core': 8.10.7
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/table-core/8.10.7:
+    resolution: {integrity: sha512-KQk5OMg5OH6rmbHZxuNROvdI+hKDIUxANaHlV+dPlNN7ED3qYQ/WkpY2qlXww1SIdeMlkIhpN/2L00rof0fXFw==}
+    engines: {node: '>=12'}
     dev: false
 
   /@testing-library/dom/8.20.1:
