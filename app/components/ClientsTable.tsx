@@ -33,7 +33,6 @@ export function ClientsTable<TData extends ClientDistribution>({ data }: DataTab
       sorting,
     },
   });
-
   const totalClients = data.reduce((total, client) => total + client.count, 0);
 
   return (
