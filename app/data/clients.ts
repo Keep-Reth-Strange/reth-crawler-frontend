@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getBaseData(): Promise<any> {
-  const baseData = await axios.get("http://api.0smit.com/clients");
+  const baseData = await axios.get("http://api.0xsmit.com/clients");
   return Promise.resolve(baseData.data);
 }
 
