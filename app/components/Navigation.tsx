@@ -11,10 +11,10 @@ export const Navigation = () => {
   return (
     <NavigationMenu>
       <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/" active={path === "/"}>
-        Clients
+        Client Analytics
       </NavigationMenuLink>
       <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/nodes" active={path === "/nodes"}>
-        Nodes
+        Browse Nodes
       </NavigationMenuLink>
     </NavigationMenu>
   );
