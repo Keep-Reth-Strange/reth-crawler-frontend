@@ -5,18 +5,13 @@ import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 
-export type Client = {
-  client: string;
-  count: number;
-};
-
 interface DataTableProps<TData> {
   data: TData[];
 }
 
-export function ClientsTable<TData extends Client>({ data }: DataTableProps<TData>) {
+export function ClientsTable<TData extends ClientDistribution>({ data }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([{ id: "count", desc: true }]);
-  const columns: ColumnDef<Client>[] = [
+  const columns: ColumnDef<ClientDistribution>[] = [
     {
       accessorKey: "client",
       header: "Client",
