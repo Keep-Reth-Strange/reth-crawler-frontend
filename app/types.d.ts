@@ -39,4 +39,6 @@ type NodeRecord = {
   last_seen: string;
   country: string;
   city: string;
+  isp: string;
+  synced: boolean;
 };

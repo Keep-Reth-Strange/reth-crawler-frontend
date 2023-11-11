@@ -116,6 +116,9 @@ function Node() {
         <Col label="Last Seen:" value={formatISO9075(new Date(nodeData.last_seen.split('.')[0].replace(' ', 'T')), { representation: "date" })} />
         <Col label="Country:" value={nodeData.country} />
         <Col label="City:" value={nodeData.city} />
+        <Col label="Synced:" value={String(nodeData.synced || false)} />
+        <Col label="ISP:" value={String(nodeData.isp || "")} />
+
       </div>
     </div>
   );
