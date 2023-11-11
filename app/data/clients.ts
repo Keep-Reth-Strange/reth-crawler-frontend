@@ -21,7 +21,7 @@ export async function getClientsData(clientResult: any): Promise<ClientDistribut
     Object.entries(reducedData).map(([client, count]) => ({
       client,
       count: count as number,
-    }))
+    })).sort((a, b) => b.count - a.count)
   );
 }
 
