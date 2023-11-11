@@ -201,25 +201,26 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
       ),
     },
   ];
+
+  const [globalFilter, setGlobalFilter] = React.useState('');
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      globalFilter,
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "includesString",
     getPaginationRowModel: getPaginationRowModel(),
-    sortDescFirst: true,
-    enableSorting: true,
-    manualSorting: true,
-    onSortingChange: (newSorting) => {
-      setSorting(newSorting);
-    },
-    state: {
-      sorting,
-    },
+    enableGlobalFilter: true,
   });
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const { rows } = table.getRowModel();
+
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
@@ -229,16 +230,53 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
+
   return (
     <div className="mt-4" ref={tableContainerRef}>
       <div id="top-bar" className="flex items-center gap-2 justify-between mb-2">
         <Input
-          placeholder="Search by ID"
-          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("id")?.setFilterValue(event.target.value)}
+          placeholder="Search"
+          value={globalFilter ?? ""}
+          onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
-        <div id="pagination" className="flex flex-grow-1 space-x-4 items-stretch">
+      </div>
+      <Table className="border rounded-md">
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup, i) => (
+            <TableRow key={`header-${i}`}>
+              {headerGroup.headers.map((header, j) => (
+                <TableHead key={`head-${header.id}-${j}`} className="font-medium">
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {paddingTop > 0 && (
+            <TableRow>
+              <TableCell style={{ height: `${paddingTop}px` }} />
+            </TableRow>
+          )}
+          {virtualRows.map((virtualRow, i) => {
+            const row = rows[virtualRow.index];
+            return (
+              <TableRow key={`row-${row.id}-${i}`} data-state={row.getIsSelected() && "selected"}>
+                {row.getVisibleCells().map((cell, j) => (
+                  <TableCell key={`cell-${cell.id}-${i}-${j}`}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
+          {paddingBottom > 0 && (
+            <TableRow>
+              <TableCell style={{ height: `${paddingBottom}px` }} />
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <div id="pagination" className="flex flex-grow-1 space-x-4 items-stretch">
           <span className="flex items-center gap-1">
             <div>Page</div>
             <strong>
@@ -278,42 +316,6 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
             </SelectContent>
           </Select>
         </div>
-      </div>
-      <Table className="border rounded-md">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup, i) => (
-            <TableRow key={`header-${i}`}>
-              {headerGroup.headers.map((header, j) => (
-                <TableHead key={`head-${header.id}-${j}`} className="font-medium">
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {paddingTop > 0 && (
-            <TableRow>
-              <TableCell style={{ height: `${paddingTop}px` }} />
-            </TableRow>
-          )}
-          {virtualRows.map((virtualRow, i) => {
-            const row = rows[virtualRow.index];
-            return (
-              <TableRow key={`row-${row.id}-${i}`} data-state={row.getIsSelected() && "selected"}>
-                {row.getVisibleCells().map((cell, j) => (
-                  <TableCell key={`cell-${cell.id}-${i}-${j}`}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </TableRow>
-            );
-          })}
-          {paddingBottom > 0 && (
-            <TableRow>
-              <TableCell style={{ height: `${paddingBottom}px` }} />
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
       <div className="p-2">{data?.length} Total Nodes</div>
     </div>
   );
