@@ -167,7 +167,7 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
       },
       cell: (info: unknown) => {
         const infoCasted = info as CellContext<NodeRecord, string>;
-        return <p>{formatISO9075(new Date(infoCasted.getValue()), { representation: "date" })}</p>;
+        return <p>{formatISO9075(new Date(infoCasted.getValue().split('.')[0].replace(' ', 'T')), { representation: "date" })}</p>;
       },
     },
     {
