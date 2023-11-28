@@ -103,7 +103,8 @@ function App() {
         </Card>
         <PieChart
           key={`client-chart-${secondaryFilter}-${clientFilter}`} // Add clientFilter to the key
-          data={chartData}
+          // shows only clients that have count number > 10 to filter out spam results
+          data={chartData.filter((item) => item.count > 10)}
           id="chartdiv"
           onClick={!clientFilter ? handleClientChartClick : null}
           categoryField={!clientFilter ? "client" : secondaryFilter}
