@@ -117,7 +117,7 @@ export default function PieChart<T extends { [key: string]: any }>(props: PieCha
 
     series
       .get("colors")
-      .set("colors", [am5.color(0xcccccc), am5.color(0xb3b3b3), am5.color(0x999999), am5.color(0x808080), am5.color(0x666666)]);
+      .set("colors", [am5.color(0x47dc7a), am5.color(0x000000), am5.color(0xFFA500), am5.color(0x03459C), am5.color(0x800080)]);
 
     series.slices.template.setAll({
       stroke: am5.color("#FFFFFF"),
@@ -127,6 +127,17 @@ export default function PieChart<T extends { [key: string]: any }>(props: PieCha
     rootRef.current.setThemes([am5themes_Animated.new(rootRef.current), am5themes_Dark.new(rootRef.current), responsive]);
 
     series.data.setAll(data);
+
+    // Create and position a label for the filtering information
+    let infoLabel = chart.children.push(
+      am5.Label.new(rootRef.current, {
+        text: "Displaying only clients with count > 10",
+        x: am5.percent(70), // Adjust as needed for positioning
+        y: am5.percent(100), // Adjust as needed for positioning
+        fontSize: 12,
+        fill: am5.color("#0x000000"), // Adjust color as needed
+      })
+    );
 
     let legend = chart.children.push(
       am5.Legend.new(rootRef.current, {
