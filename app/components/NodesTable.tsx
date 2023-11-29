@@ -224,7 +224,7 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
-    overscan: 10,
+    overscan: 50,
   });
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
@@ -244,13 +244,13 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
         </div>
         <div id="pagination" className="flex items-center space-x-4">
           <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
+            <div className="text-base sm:text-xs md:text-base lg:text-base">Page</div>
+            <strong className="text-base sm:text-xs md:text-base lg:text-base">
               {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </strong>
           </span>
           <span className="flex items-center space-x-4">
-            <div className="flex-shrink-0">Go to page</div>
+            <div className="flex-shrink-0 text-base sm:text-xs md:text-base lg:text-base">Go to page</div>
             <Input
               type="number"
               min={1}
@@ -269,7 +269,7 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
             disabled={!table.getCanPreviousPage()}
             className="h-9"
           >
-            Previous
+            Prev
           </Button>
           <Button
             variant="outline"
