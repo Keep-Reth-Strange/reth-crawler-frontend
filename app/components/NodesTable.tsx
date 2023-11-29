@@ -232,14 +232,70 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
 
 
   return (
-    <div className="mt-4" ref={tableContainerRef}>
-      <div id="top-bar" className="flex items-center gap-2 justify-between mb-2">
-        <Input
-          placeholder="Search"
-          value={globalFilter ?? ""}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-sm"
-        />
+    <div className="mt-4">
+      <div className="flex items-center justify-between mb-2">
+        <div id="top-bar" className="flex items-center gap-2">
+          <Input
+            placeholder="Search"
+            value={globalFilter ?? ""}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+        <div id="pagination" className="flex items-center space-x-4">
+          <span className="flex items-center gap-1">
+            <div>Page</div>
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </strong>
+          </span>
+          <span className="flex items-center space-x-4">
+            <div className="flex-shrink-0">Go to page</div>
+            <Input
+              type="number"
+              min={1}
+              max={table.getPageCount()}
+              onChange={(event) => {
+                const pageNumber = event.target.value ? Number(event.target.value) - 1 : 0;
+                table.setPageIndex(pageNumber);
+              }}
+              className="max-w-sm"
+            />
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className="h-9"
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className="h-9"
+          >
+            Next
+          </Button>
+          <Select
+            value={table.getState().pagination.pageSize.toString()}
+            onValueChange={(value) => table.setPageSize(Number(value))}
+          >
+            <SelectTrigger className="border p-2 rounded mr-4 w-[250px]">
+              <SelectValue placeholder="Show X" />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <SelectItem key={pageSize} value={pageSize.toString()}>
+                  Show {pageSize}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <Table className="border rounded-md">
         <TableHeader>
@@ -276,46 +332,6 @@ export function NodesTable<TData extends NodeRecord>({ data }: DataTableProps<TD
           )}
         </TableBody>
       </Table>
-      <div id="pagination" className="flex flex-grow-1 space-x-4 items-stretch">
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </strong>
-          </span>
-          <span className="flex items-center space-x-4">
-            <div className="flex-shrink-0">Go to page</div>
-            <Input
-              type="number"
-              min={1}
-              max={table.getPageCount()}
-              onChange={(event) => {
-                const pageNumber = event.target.value ? Number(event.target.value) - 1 : 0;
-                table.setPageIndex(pageNumber);
-              }}
-              className="max-w-sm"
-            />
-          </span>
-          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="h-9">
-            Previous
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="h-9">
-            Next
-          </Button>
-
-          <Select value={table.getState().pagination.pageSize.toString()} onValueChange={(value) => table.setPageSize(Number(value))}>
-            <SelectTrigger className="border p-2 rounded mr-4 w-[250px]">
-              <SelectValue placeholder="Show X" />
-            </SelectTrigger>
-            <SelectContent>
-              {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={pageSize.toString()}>
-                  Show {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
       <div className="p-2">{data?.length} Total Nodes</div>
     </div>
   );
