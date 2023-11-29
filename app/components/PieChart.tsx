@@ -58,41 +58,20 @@ export default function PieChart<T extends { [key: string]: any }>(props: PieCha
       },
       applying: function () {
         series.chart.setAll({
-          x: am5.percent(0),
-          y: am5.percent(-40),
-          centerY: am5.percent(-20),
+          radius: am5.percent(60), // Decrease the size of the pie chart
         });
         legend.setAll({
-          y: am5.percent(80),
-          height: am5.percent(30),
-          width: am5.percent(100),
+          y: am5.percent(-100), // Move the legend above the chart
+          height: am5.percent(20), // Adjust the legend's height
         });
+        infoLabel.setAll({
+          x: am5.percent(25), // Adjust horizontal positioning
+          y: am5.percent(95), // Adjust vertical positioning
+        })
       },
       removing: function () {},
     });
-    responsive.addRule({
-      relevant: function (width, height) {
-        return width > 700 && width < 3000;
-      },
-      applying: function () {
-        series.chart.setAll({
-          centerX: am5.percent(50),
-          centerY: am5.percent(-25),
-        });
-        series.chart.setAll({
-          radius: am5.percent(80),
-          x: am5.percent(60),
-          y: am5.percent(-30),
-        });
-        legend.setAll({
-          y: am5.percent(10),
-          x: am5.percent(-10),
-          centerX: am5.percent(0),
-          centerY: am5.percent(0),
-        });
-      },
-      removing: function () {},
-    });
+    
 
     series.labels.template.setAll({
       forceHidden: true,
@@ -132,10 +111,11 @@ export default function PieChart<T extends { [key: string]: any }>(props: PieCha
     let infoLabel = chart.children.push(
       am5.Label.new(rootRef.current, {
         text: "Displaying only clients with count > 10",
-        x: am5.percent(70), // Adjust as needed for positioning
-        y: am5.percent(100), // Adjust as needed for positioning
+        x: am5.percent(80), // Adjust horizontal positioning
+        y: am5.percent(95), // Adjust vertical positioning
         fontSize: 12,
-        fill: am5.color("#0x000000"), // Adjust color as needed
+        fill: am5.color("#000000"), // Adjust color as needed
+        textAlign: "middle", // Center-align the text
       })
     );
 
