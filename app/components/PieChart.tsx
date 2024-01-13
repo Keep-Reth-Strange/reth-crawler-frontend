@@ -111,7 +111,7 @@ export default function PieChart<T extends { [key: string]: any }>(props: PieCha
     let infoLabel = chart.children.push(
       am5.Label.new(rootRef.current, {
         text: "Displaying only active clients with count > 10",
-        x: am5.percent(80), // Adjust horizontal positioning
+        x: am5.percent(70), // Adjust horizontal positioning
         y: am5.percent(95), // Adjust vertical positioning
         fontSize: 12,
         fill: am5.color("#000000"), // Adjust color as needed
