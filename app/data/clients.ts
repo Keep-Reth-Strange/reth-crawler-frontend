@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getBaseData(): Promise<any> {
-  const baseData = await axios.get("http://5.161.121.99:3030/clients");
+  const baseData = await axios.get("http://5.161.121.99:3030/active-clients?cutoff=2");
   return Promise.resolve(baseData.data);
 }
 
