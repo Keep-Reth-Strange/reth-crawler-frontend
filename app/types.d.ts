@@ -6,6 +6,10 @@ interface ClientDistribution extends Distribution {
   client: string;
 }
 
+interface CountryDistribution extends Distribution {
+  country: string
+}
+
 interface ClientVersionDistribution extends Distribution {
   clientVersion: string;
 }
